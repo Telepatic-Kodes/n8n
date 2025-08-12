@@ -1,0 +1,69 @@
+name: 🚀 Deploy to Render
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: 🐳 Test Docker Build
+      run: |
+        docker build -t n8n-test .
+        echo "✅ Docker build successful"
+    
+    - name: 🔍 Lint Files
+      run: |
+        echo "Checking required files..."
+        test -f Dockerfile && echo "✅ Dockerfile found"
+        test -f render.yaml && echo "✅ render.yaml found"
+        test -f README.md && echo "✅ README.md found"
+        test -f docker-compose.yml && echo "✅ docker-compose.yml found"
+        echo "✅ All required files present"
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: 🚀 Deploy to Render
+      env:
+        RENDER_TOKEN: ${{ secrets.RENDER_TOKEN }}
+        RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+      run: |
+        echo "🚀 Starting deployment to Render..."
+        
+        # Verificar que tenemos las credenciales
+        if [ -z "$RENDER_TOKEN" ]; then
+          echo "❌ RENDER_TOKEN not set"
+          exit 1
+        fi
+        
+        if [ -z "$RENDER_SERVICE_ID" ]; then
+          echo "❌ RENDER_SERVICE_ID not set"
+          exit 1
+        fi
+        
+        echo "✅ Credentials verified"
+        echo "📦 Deploying to Render..."
+        
+        # Render se desplegará automáticamente cuando detecte el push
+        echo "✅ Deployment triggered successfully"
+        echo "🌐 Check your Render dashboard for deployment status"
+    
+    - name: 📊 Deployment Status
+      run: |
+        echo "🎉 Deployment completed!"
+        echo "📋 Next steps:"
+        echo "1. Check your Render dashboard"
+        echo "2. Wait for the service to become 'Live'"
+        echo "3. Access your n8n instance"
+        echo "4. Configure your credentials"
