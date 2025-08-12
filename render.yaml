@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: n8n-simple
+    name: n8n-automation
     env: node
     plan: free
     region: oregon
@@ -14,13 +14,13 @@ services:
       - key: N8N_BASIC_AUTH_PASSWORD
         generateValue: true
       - key: N8N_HOST
-        value: n8n-simple.onrender.com
+        value: n8n-automation-hea4.onrender.com
       - key: N8N_PORT
         value: 10000
       - key: N8N_PROTOCOL
         value: https
       - key: WEBHOOK_URL
-        value: https://n8n-simple.onrender.com
+        value: https://n8n-automation-hea4.onrender.com
       - key: GENERIC_TIMEZONE
         value: America/Santiago
       - key: DB_TYPE
@@ -29,14 +29,3 @@ services:
         value: /opt/render/project/src/.n8n/database.sqlite
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 10000
-
-  # Optional: PostgreSQL database
-  - type: pserv
-    name: n8n-database
-    env: postgresql
-    plan: starter
-    region: oregon
-    ipAllowList: []
-    maxConnections: 10

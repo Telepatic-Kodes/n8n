@@ -1,163 +1,62 @@
-# 🚀 n8n en Render - Despliegue Automático
+# n8n Automation Platform - Render Deployment
 
-Este repositorio contiene todo lo necesario para desplegar **n8n** en Render de forma rápida y segura, con persistencia de datos y configuración optimizada.
+## 🚀 **Despliegue Automático en Render**
 
-## ✨ Características
+Este proyecto configura n8n (plataforma de automatización de workflows) para desplegarse automáticamente en Render.
 
-- ✅ **Despliegue automático** en Render
-- ✅ **Persistencia de datos** con almacenamiento en disco
-- ✅ **Autenticación básica** configurada
-- ✅ **SSL/HTTPS** automático
-- ✅ **Health checks** para monitoreo
-- ✅ **Configuración optimizada** para producción
-- ✅ **Docker optimizado** para Render
+### 📋 **¿Qué es n8n?**
 
-## 🚀 Despliegue Rápido en Render
+n8n es una plataforma de **automatización de workflows** que te permite:
+- Conectar diferentes aplicaciones y servicios
+- Automatizar tareas repetitivas
+- Crear flujos de trabajo complejos
+- Integrar APIs y webhooks
 
-### Opción 1: Despliegue Automático (Recomendado)
+### 🏗️ **Estructura del Proyecto**
 
-1. **Fork este repositorio** a tu cuenta de GitHub
-2. Ve a [Render.com](https://render.com) y crea una cuenta
-3. Haz clic en **"New +"** → **"Blueprint"**
-4. Conecta tu repositorio de GitHub
-5. Render detectará automáticamente el `render.yaml`
-6. Haz clic en **"Apply"** y espera el despliegue
-
-### Opción 2: Despliegue Manual
-
-1. **Fork este repositorio** a tu cuenta de GitHub
-2. En Render → **"New +"** → **"Web Service"**
-3. Conecta tu repositorio
-4. Configura:
-   - **Environment**: `Docker`
-   - **Branch**: `main`
-   - **Build Command**: *(dejar vacío)*
-   - **Start Command**: *(automático)*
-
-5. **Environment Variables** (añadir manualmente):
-   ```
-   N8N_BASIC_AUTH_ACTIVE=true
-   N8N_BASIC_AUTH_USER=tuusuario
-   N8N_BASIC_AUTH_PASSWORD=tupassword
-   N8N_HOST=tu-app.onrender.com
-   N8N_PORT=5678
-   N8N_PROTOCOL=https
-   WEBHOOK_URL=https://tu-app.onrender.com
-   GENERIC_TIMEZONE=America/Santiago
-   DB_TYPE=sqlite
-   DB_SQLITE_DATABASE=/home/node/.n8n/database.sqlite
-   ```
-
-6. **Disks** (para persistencia):
-   - Nombre: `n8n-data`
-   - Mount Path: `/home/node/.n8n`
-   - Size: `1 GB`
-
-## 🔧 Configuración Local
-
-Para probar localmente:
-
-```bash
-# Clonar el repositorio
-git clone <tu-repo-url>
-cd n8n
-
-# Ejecutar con Docker Compose
-docker-compose up -d
-
-# Acceder a n8n
-# URL: http://localhost:5678
-# Usuario: admin
-# Contraseña: password123
+```
+├── package.json          # Dependencias y scripts
+├── index.js             # Punto de entrada de la aplicación
+├── render.yaml          # Configuración de Render
+├── .gitignore          # Archivos a ignorar
+└── README.md           # Este archivo
 ```
 
-## 📊 Variables de Entorno
+### ⚙️ **Configuración**
 
-| Variable | Descripción | Valor por Defecto |
-|----------|-------------|-------------------|
-| `N8N_BASIC_AUTH_ACTIVE` | Activar autenticación | `true` |
-| `N8N_BASIC_AUTH_USER` | Usuario de acceso | Generado automáticamente |
-| `N8N_BASIC_AUTH_PASSWORD` | Contraseña de acceso | Generado automáticamente |
-| `N8N_HOST` | Host de n8n | Tu dominio de Render |
-| `N8N_PORT` | Puerto de n8n | `5678` |
-| `N8N_PROTOCOL` | Protocolo (http/https) | `https` |
-| `WEBHOOK_URL` | URL para webhooks | Tu dominio de Render |
-| `GENERIC_TIMEZONE` | Zona horaria | `America/Santiago` |
-| `DB_TYPE` | Tipo de base de datos | `sqlite` |
-| `DB_SQLITE_DATABASE` | Ruta de la base de datos | `/home/node/.n8n/database.sqlite` |
+El proyecto está configurado para:
+- **Autenticación básica**: Usuario y contraseña generados automáticamente
+- **Base de datos SQLite**: Almacenamiento local de workflows
+- **Puerto 10000**: Puerto estándar de n8n
+- **Protocolo HTTPS**: Seguridad habilitada
+- **Zona horaria**: America/Santiago
 
-## 🗄️ Base de Datos
+### 🚀 **Despliegue Automático**
 
-### SQLite (Recomendado para empezar)
-- **Ventajas**: Simple, no requiere configuración adicional
-- **Datos**: Persisten en el disco de Render
-- **Configuración**: Automática
+1. **Conectar repositorio**: El proyecto se conecta automáticamente a GitHub
+2. **Despliegue automático**: Cada commit activa un nuevo despliegue
+3. **Variables de entorno**: Se configuran automáticamente en Render
+4. **URL de acceso**: https://n8n-automation-hea4.onrender.com
 
-### PostgreSQL (Para uso avanzado)
-Si quieres usar PostgreSQL:
+### 📝 **Uso**
 
-1. Crea una base de datos PostgreSQL en Render
-2. Cambia las variables de entorno:
-   ```
-   DB_TYPE=postgresdb
-   DB_POSTGRESDB_CONNECTION_STRING=postgresql://user:pass@host:port/dbname
-   ```
+Una vez desplegado:
+1. Accede a la URL de la aplicación
+2. Usa las credenciales generadas automáticamente
+3. Comienza a crear tus workflows de automatización
 
-## 🔒 Seguridad
+### 🔧 **Desarrollo Local**
 
-- ✅ Autenticación básica activada por defecto
-- ✅ HTTPS automático en Render
-- ✅ Usuario y contraseña generados automáticamente
-- ✅ Datos persistentes en disco seguro
-
-## 📈 Monitoreo
-
-- **Health Check**: `/healthz` (automático)
-- **Logs**: Disponibles en el dashboard de Render
-- **Métricas**: Render proporciona métricas básicas
-
-## 🛠️ Personalización
-
-### Cambiar zona horaria:
 ```bash
-GENERIC_TIMEZONE=America/Santiago  # Chile
-GENERIC_TIMEZONE=America/Mexico_City  # México
-GENERIC_TIMEZONE=America/New_York  # Estados Unidos
+# Instalar dependencias
+npm install
+
+# Iniciar n8n localmente
+npm start
 ```
 
-### Activar modo desarrollo:
-```bash
-NODE_ENV=development
-N8N_BASIC_AUTH_ACTIVE=false
-```
+### 📚 **Recursos**
 
-## 🚨 Troubleshooting
-
-### El servicio no inicia:
-1. Verifica los logs en Render
-2. Asegúrate de que las variables de entorno estén correctas
-3. Verifica que el puerto 5678 esté expuesto
-
-### No se guardan los datos:
-1. Verifica que el disco esté configurado correctamente
-2. Asegúrate de que el mount path sea `/home/node/.n8n`
-
-### Problemas de autenticación:
-1. Verifica que `N8N_BASIC_AUTH_ACTIVE=true`
-2. Asegúrate de que usuario y contraseña estén configurados
-
-## 📞 Soporte
-
-Si tienes problemas:
-1. Revisa los logs en Render
-2. Verifica la configuración de variables de entorno
-3. Asegúrate de que el repositorio esté actualizado
-
-## 🎉 ¡Listo!
-
-Una vez desplegado, tendrás n8n funcionando en:
-- **URL**: `https://tu-app.onrender.com`
-- **Usuario**: El que configuraste
-- **Contraseña**: La que configuraste
-
-¡Disfruta automatizando! 🤖
+- [Documentación de n8n](https://docs.n8n.io/)
+- [Documentación de Render](https://render.com/docs)
+- [Guía de automatización](https://docs.n8n.io/workflows/)
