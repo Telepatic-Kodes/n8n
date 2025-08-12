@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 node_modules
 npm-debug.log
 .git
@@ -8,3 +9,24 @@ README.md
 coverage
 .DS_Store
 *.log
+=======
+**/*.md
+**/.env
+.cache
+assets
+node_modules
+packages/node-dev
+packages/**/node_modules
+packages/**/dist
+packages/**/.turbo
+packages/**/*.test.*
+.git
+.github
+!.github/scripts
+*.tsbuildinfo
+docker/compose
+docker/**/Dockerfile
+.vscode
+packages/testing
+cypress
+>>>>>>> 5a69d2a2f35cc86685b6eb42e870a2e3ed85c248
